@@ -1,0 +1,99 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.2'
+    id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+    id 'org.asciidoctor.convert' version '1.5.8'
+    id 'java'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+}
+
+ext {
+    set('snippetsDir', file("build/generated-snippets"))
+}
+
+dependencies {
+    //Batch transaction for databases
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    //Spring data jpa repository driver
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    //Generic Driver for databases
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    //Mail library for send/receive smtp mail messages
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    //Security library for authentication and authorization, session and etc
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    //Libraries for serving responses on a static context
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    //Websocket interaction and management library
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    //Springboot session manager
+    implementation 'org.springframework.session:spring-session-jdbc'
+    //Annotation library for springboot e.g. @RestController
+    implementation 'org.jetbrains:annotations:23.0.0'
+    //Springboot actuator library for local/remote monitoring and management
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.7.4'
+    // 1D barcode generator
+    implementation group: 'net.sourceforge.barbecue', name: 'barbecue', version: '1.5-beta1'
+
+    // 2D/QrCode barcode generator libraries
+    implementation 'com.google.zxing:core:3.4.1'
+    implementation 'com.google.zxing:javase:3.4.1'
+
+    // Redis spring session manager
+    implementation group: 'org.springframework.session', name: 'spring-session-data-redis', version: '2.7.0'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '3.0.2'
+
+
+    compileOnly 'org.projectlombok:lombok'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    runtimeOnly 'org.postgresql:postgresql'
+
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.springframework.amqp:spring-rabbit-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.amqp:spring-rabbit-test'
+    testImplementation 'org.springframework.batch:spring-batch-test'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation 'org.springframework.security:spring-security-test'
+}
+
+tasks.named('test') {
+    outputs.dir snippetsDir
+}
+
+tasks.named('asciidoctor') {
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+tasks.register('runDocker') {
+
+    doFirst {
+        delete('build')
+        bootJar.archiveFileName.set('Backend-Server.jar')
+
+    }
+
+    doLast {
+        exec {
+            commandLine 'docker-compose', 'up'
+        }
+    }
+}

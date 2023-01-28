@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Login and Register tabbed form</title>
+
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="css/style.css">
+    <link type="text/css" rel="stylesheet" href="css/all.min.css">
+    <link type="text/css" rel="stylesheet" href="css/responsive.css">
+    <link type="text/css" rel="stylesheet" href="css/notification.css">
+
+    <script type="application/javascript" src="js/jquery.min.js"></script>
+    <script type="application/javascript" src="/js/register_login_page.js"></script>
+
+
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+<div id="particles-js" class="main-form-box">
+    <div class="md-form">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="panel panel-login">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-lg-6 col-sm-6 col-xl-6">
+                                    <a href="" class="active" id="login-form-link">Login</a>
+                                </div>
+                                <div class="col-lg-6 col-sm-6 col-xl-6">
+                                    <a href="" id="register-form-link">Register</a>
+                                </div>
+                                <div class="or">OR</div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+
+                                    <!--LOGIN DETAILS and BUTTON-->
+                                    <form id="login-form" role="form" style="display: block;">
+                                        <div class="form-group">
+                                            <label class="icon-lp"><i class="fas fa-user-tie"></i></label>
+                                            <input type="text" name="username" id="username_login" tabindex="1"
+                                                   class="form-control" placeholder="Username" value=""
+                                                   required="required">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="icon-lp"><i class="fas fa-key"></i></label>
+                                            <input type="password" name="password" id="password_login" tabindex="2"
+                                                   class="form-control" placeholder="Password" required="required">
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-sm-6 offset-sm-3">
+                                                    <button id="login_button" name="login-submit" onclick="login()"
+                                                            tabindex="4" class="form-control btn btn-login"
+                                                            value="Log In">Log In
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                    <!--REGISTER DETAILS and BUTTON-->
+                                    <form id="register-form" role="form"
+                                          style="display: none;">
+                                        <div class="form-group">
+                                            <label class="icon-lp"><i class="fas fa-user-tie"></i></label>
+                                            <input type="text" name="username" id="username_register" tabindex="1"
+                                                   class="form-control" placeholder="Username" value="" required="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="icon-lp"><i class="fas fa-envelope"></i></label>
+                                            <input type="email" name="email" id="email_register" tabindex="1"
+                                                   class="form-control" placeholder="Email Address" value=""
+                                                   required="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="icon-lp"><i class="fas fa-key"></i></label>
+                                            <input type="password" name="password" id="password_register" tabindex="2"
+                                                   class="form-control" placeholder="Password" required="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="icon-lp"><i class="fas fa-key"></i></label>
+                                            <input type="password" name="confirm_password_register"
+                                                   id="confirm-password"
+                                                   tabindex="2" class="form-control" placeholder="Confirm Password"
+                                                   required="">
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-sm-6 offset-sm-3">
+                                                    <button name="register-submit" onclick="register()"
+                                                            tabindex="4" class="form-control btn btn-register"
+                                                            value="Register Now">Register Now
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                    <!--                                    Notification....-->
+
+                                    <div id="notification_box" class="col-sm-12">
+
+
+
+                                    </div>
+                                    <!--                                                    -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<script type="application/javascript" src="js/bootstrap.min.js"></script>
+<!--<script type="application/javascript" src="js/particles.min.js"></script>
+<script type="application/javascript" src="js/index.js"></script>-->
+
+<script type="text/javascript">
+    $(function () {
+        $('#login-form-link').click(function (e) {
+            $("#login-form").delay(100).fadeIn(100);
+            $("#register-form").fadeOut(100);
+            $('#register-form-link').removeClass('active');
+            $(this).addClass('active');
+            e.preventDefault();
+        });
+        $('#register-form-link').click(function (e) {
+            $("#register-form").delay(100).fadeIn(100);
+            $("#login-form").fadeOut(100);
+            $('#login-form-link').removeClass('active');
+            $(this).addClass('active');
+            e.preventDefault();
+        });
+    });
+
+    $('.form-group input').focus(function () {
+        $(this).parent().addClass('addcolor');
+    }).blur(function () {
+        $(this).parent().removeClass('addcolor');
+    });
+
+</script>
+</body>
+</html>
