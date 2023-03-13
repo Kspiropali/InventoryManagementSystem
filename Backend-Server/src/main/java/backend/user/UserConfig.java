@@ -1,4 +1,3 @@
-/*
 package backend.user;
 
 import backend.security.PasswordEncoder;
@@ -33,4 +32,3 @@ public class UserConfig {
         userRepository.saveAll(users);
     }
 }
-*/

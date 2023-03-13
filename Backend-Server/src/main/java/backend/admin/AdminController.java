@@ -4,6 +4,7 @@ import backend.token.Token;
 import backend.token.TokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
@@ -47,7 +48,7 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/login")
-    public String terminalLogin() {
+    public String terminalLogin(Authentication authentication) {
         /*TODO: We cant just return an id here. Implementation of login tokens are required. We can save the token in
         cookies with expiration time etc.*/
         return "Logged in!";

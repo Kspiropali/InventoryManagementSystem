@@ -2,7 +2,10 @@ package backend.item;
 
 
 public enum ItemType {
-    FOOD,
+    FRUIT,
+    VEGETABLE,
+    ORGANIC,
     ELECTRONICS,
     CLOTHING,
+    FRESH
 }

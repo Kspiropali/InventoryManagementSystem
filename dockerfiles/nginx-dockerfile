@@ -1,0 +1,9 @@
+FROM nginx:latest
+MAINTAINER kspiropali
+COPY dockerfiles/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY /Backend-Server/src/main/resources/certificates/fullchain.pem /etc/letsencrypt/live/amazingapp.tplinkdns.com/fullchain.pem
+COPY /Backend-Server/src/main/resources/certificates/privkey.pem /etc/letsencrypt/live/amazingapp.tplinkdns.com/privkey.pem
+COPY /Backend-Server/src/main/resources/certificates/options-ssl-nginx.conf /etc/letsencrypt/options-ssl-nginx.conf
+COPY /Backend-Server/src/main/resources/certificates/ssl-dhparams.pem /etc/letsencrypt/ssl-dhparams.pem
+RUN nginx -t
+RUN service nginx restart

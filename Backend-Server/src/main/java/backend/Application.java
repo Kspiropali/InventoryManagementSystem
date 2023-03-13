@@ -5,11 +5,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 @EnableCaching
 @EnableRedisHttpSession
 @SpringBootApplication
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class Application {
 
     public static void main(String[] args) {
@@ -28,7 +30,6 @@ public class Application {
     public String deployBean() {
         return "deploy";
     }
-
 
 
 }

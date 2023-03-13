@@ -42,7 +42,7 @@ public class User implements UserDetails {
     private boolean credentialsNonExpired = true;
     private boolean enabled = false;
 
-    GrantedAuthority authority = new SimpleGrantedAuthority("USER");
+    GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
 
     public User(String email, String password) {
         this.email = email;

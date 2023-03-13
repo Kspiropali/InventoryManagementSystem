@@ -50,6 +50,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     public void sendRegistrationConfirmationEmail(String sendTo, String token) {
         emailService.sendSimpleMail(sendTo, token);
+       // emailService.sendMailWithAttachment(sendTo, token);
     }
 
     @Override

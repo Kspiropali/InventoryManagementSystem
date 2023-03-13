@@ -1,4 +1,3 @@
-/*
 package backend.admin;
 
 
@@ -18,8 +17,8 @@ public class AdminConfig {
 
     public void addUsers() {
         //Testing only, Setup admin for testing
-        Admin admin = new Admin("admin@admin.com", passwordEncoder.encode("testingadmin123!"));
+        Admin admin = new Admin("admin", passwordEncoder.encode("admin"));
         admin.setEnabled(true);
         adminRepository.save(admin);
     }
-}*/
+}

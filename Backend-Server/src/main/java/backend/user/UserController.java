@@ -1,5 +1,6 @@
 package backend.user;
 
+import backend.item.Item;
 import backend.item.ItemRepository;
 import backend.item.ItemType;
 import backend.token.Token;
@@ -8,9 +9,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -58,22 +63,25 @@ public class UserController {
     public String terminalLogin() {
         /*TODO: We cant just return an id here. Implementation of login tokens are required. We can save the token in
         cookies with expiration time etc.*/
-        return "Logged in!";
+        return "Login successful";
     }
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/login")
+    //@Transactional
     //@PreAuthorize("hasAuthority('USER_WRITE')")
-    public ResponseEntity<byte[]> browserLogin() throws IOException {
+    public ResponseEntity<String> browserLogin() throws IOException {
         /*TODO: We cant just return an id here. Implementation of login tokens are required. We can save the token in
         cookies with expiration time etc.*/
         //beanConfigurer.removeExistingAndAddNewBean("jdbcCustom");
-        byte[] imageBaos = itemRepository.findByItemType(ItemType.FOOD).get().getBarcodeImage();
+//        List<List<Item>> imageBaos = Collections.singletonList(itemRepository.findItemsByItemType(ItemType.FRESH).get());
+//        System.out.println(imageBaos);
+//        byte[] firstImage = imageBaos.get(0).get(1).getImage();
+//
+//        //BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageBaos));
+//        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(firstImage);
 
-
-        //BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageBaos));
-        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBaos);
-
+        return ResponseEntity.ok().contentType(MediaType.TEXT_PLAIN).body("Login successful");
     }
 
 }

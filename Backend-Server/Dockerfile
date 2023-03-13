@@ -1,4 +1,0 @@
-FROM amazoncorretto:17
-MAINTAINER kspiropali
-COPY build/libs/Backend-Server.jar /build/Backend-Server.jar
-ENTRYPOINT ["java","-jar","/build/Backend-Server.jar"]

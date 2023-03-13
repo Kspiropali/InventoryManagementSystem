@@ -1,0 +1,121 @@
+version: "3"
+
+services:
+  #Persistent database
+  postgres:
+    container_name: springboot-postgres
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: kspir
+      POSTGRES_PASSWORD: secure123!
+      POSTGRES_DB: springboot
+    networks:
+      postgres_net:
+        ipv4_address: 172.20.1.4
+  #Port redirection and load balancer
+  nginx:
+    container_name: nginx-connector
+    build:
+      dockerfile: dockerfiles/nginx-dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      redirect_net:
+        ipv4_address: 172.18.1.10
+
+  #In memory cache/session database
+  redis:
+    container_name: redis-springboot-cache
+    image: redis:latest
+    command:
+      - /bin/sh
+      - -c
+      - redis-server --appendonly yes --requirepass "secure123!"
+    networks:
+      redis_net:
+        ipv4_address: 172.19.1.10
+
+  #actual server
+  backend:
+    container_name: backend-server
+    build:
+      dockerfile: dockerfiles/backend-dockerfile
+    networks:
+      redirect_net:
+        ipv4_address: 172.18.1.2
+      redis_net:
+        ipv4_address: 172.19.1.6
+      postgres_net:
+        ipv4_address: 172.20.1.8
+      email_net:
+        ipv4_address: 172.21.1.10
+      fileserver_net:
+        ipv4_address: 172.11.1.12
+    depends_on:
+      - postgres
+      - redis
+      - email_server
+      - vsftpd
+
+  #email server for local testing
+  email_server:
+    container_name: email-server
+    image: maildev/maildev:2.0.5
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    networks:
+      email_net:
+        ipv4_address: 172.21.1.12
+
+  vsftpd:
+    build:
+      dockerfile: dockerfiles/vsftpd-dockerfile
+    container_name: fileserver
+    environment:
+      - FTP_USER=kspir
+      - FTP_PASS=secure123!
+      - FTP_PASSIVE_PORTS=40000:40009
+    ports:
+      - "20:20"
+      - "21:21"
+      - "40000-40009:40000-40009"
+    networks:
+      fileserver_net:
+        ipv4_address: 172.11.1.8
+
+
+#Networks
+networks:
+  redirect_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.1.0/24
+  redis_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.19.1.0/24
+  postgres_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.1.0/24
+  email_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.21.1.0/24
+  fileserver_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.11.1.0/24

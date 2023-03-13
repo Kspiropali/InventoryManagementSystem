@@ -1,0 +1,3 @@
+FROM  garethflowers/ftp-server
+#RUN mkdir /home/kspir/products
+COPY dockerfiles/products /home/kspir/products

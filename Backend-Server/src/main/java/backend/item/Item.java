@@ -5,7 +5,6 @@ import net.sourceforge.barbecue.BarcodeException;
 import net.sourceforge.barbecue.BarcodeFactory;
 import net.sourceforge.barbecue.BarcodeImageHandler;
 import net.sourceforge.barbecue.output.OutputException;
-import org.hibernate.annotations.Type;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -31,11 +30,12 @@ import java.util.Date;
 @Table(name = "_items")
 public class Item {
 
-    public Item(String name, float price, Date expirationTime, ItemType itemType) throws WriterException, IOException, OutputException, BarcodeException {
+    public Item(String name, float price, Date expirationTime, ItemType itemType, byte[] image) throws WriterException, IOException, OutputException, BarcodeException {
         this.name = name;
         this.price = price;
         this.expirationTime = expirationTime;
         this.itemType = itemType;
+        this.image = image;
         this.qrCodeImage = calculateQrCodeImage();
         this.barcodeImage = calculateBarcodeImage();
     }
@@ -60,18 +60,19 @@ public class Item {
     private int quantity;
     private float price;
 
+    @Lob
+    private byte[] image;
     @Column(updatable = false)
     @Basic(optional = false)
     private Date expirationTime;
 
     private ItemType itemType;
-    //qr code generator
+    //qr code generated image
     @Lob
-    @Type(type = "org.hibernate.type.ImageType")
     private byte[] qrCodeImage;
 
+    //barcode generated image
     @Lob
-    @Type(type = "org.hibernate.type.ImageType")
     private byte[] barcodeImage;
 
     public byte[] calculateQrCodeImage() throws WriterException, IOException {
@@ -86,6 +87,13 @@ public class Item {
         return baos.toByteArray();
     }
 
+    //Barcode is of type EAN13
+    //Needs to be at least 12 digits long, maximum 13 digits
+    //The last digit is a checksum digit
+    //The (1)first and (2)second digits are the country code
+    //The (3)third, (4)fourth, (5)fifth, (6)sixth digits are the product id in the database
+    //The (7)seventh, (8)eighth, (9)ninth, (10)tenth is the expiry date
+    //The (11)eleventh, (12)twelfth, (13)thirteenth is the checksum of the barcode
     public byte[] calculateBarcodeImage() throws BarcodeException, OutputException, IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String barcodeText = "111134233111";

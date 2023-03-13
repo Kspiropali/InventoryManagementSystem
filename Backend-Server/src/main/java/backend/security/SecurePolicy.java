@@ -1,9 +1,9 @@
 package backend.security;
 
+import backend.kiosk.KioskServiceImpl;
 import backend.user.User;
 import backend.user.UserService;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -21,12 +21,31 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 @EnableWebSecurity
 @SuppressWarnings("deprecation")
 public class SecurePolicy {
+    private static final String[] WHITE_LIST_URLS = {
+            "/user/register**",
+            "/user/verifyRegistration**",
+            "/user/resendVerificationToken**",
+            "/user/loggedout**",
+            "/css/**",
+            "/js/**",
+            "/error**",
+            "/favicon.ico",
+            "/home",
+            "/admin",
+            "/payment_success",
+            "/documentation",
+    };
+
+    public SecurePolicy(CustomAuthEntryPoint customAuthEntryPoint) {
+        SecurePolicy.customAuthEntryPoint = customAuthEntryPoint;
+    }
 
     @Bean
     public HttpSessionEventPublisher httpSessionEventPublisher() {
         return new HttpSessionEventPublisher();
     }
 
+    private static CustomAuthEntryPoint customAuthEntryPoint;
 
     @Configuration
     @Order(1)
@@ -41,16 +60,6 @@ public class SecurePolicy {
         private final UserDetailsService userService;
         private final PasswordEncoder passwordEncoder;
         //WhiteListed urls from authentication
-        private static final String[] WHITE_LIST_URLS = {
-                "/user/register**",
-                "/user/verifyRegistration**",
-                "/user/resendVerificationToken**",
-                "/user/loggedout**",
-                "/css/**",
-                "/js/**",
-                "/error**",
-                "/favicon.ico"
-        };
 
         public UserSecurityConfig(@Qualifier("userServiceImpl") UserDetailsService userService, PasswordEncoder passwordEncoder) {
             this.userService = userService;
@@ -78,6 +87,7 @@ public class SecurePolicy {
                             .deleteCookies("JSESSIONID")
                     )
                     .antMatcher("/user/***")
+                    //.antMatcher("/home")
                     //Cross origin enable
                     .cors().and()
                     //Cross site request forgery disable for testing purposes
@@ -107,6 +117,7 @@ public class SecurePolicy {
                     .anyRequest()
                     .authenticated().and()
                     .httpBasic()
+                    .authenticationEntryPoint(customAuthEntryPoint)
                     .and().sessionManagement().sessionFixation().migrateSession()
                     .maximumSessions(1).maxSessionsPreventsLogin(true)
                     .expiredUrl("/user/loggedout").sessionRegistry(sessionRegistry());
@@ -131,13 +142,6 @@ public class SecurePolicy {
     public static class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
         private final UserDetailsService adminService;
         private final PasswordEncoder passwordEncoder;
-        //WhiteListed urls from authentication
-        private static final String[] WHITE_LIST_URLS = {
-                "/css/**",
-                "/js/**",
-                "/error**",
-                "/favicon.ico"
-        };
 
         public AdminSecurityConfig(@Qualifier("adminServiceImpl") UserDetailsService adminService, PasswordEncoder passwordEncoder) {
             this.adminService = adminService;
@@ -189,6 +193,7 @@ public class SecurePolicy {
                     .antMatchers(WHITE_LIST_URLS).permitAll()
                     .anyRequest().authenticated().and()
                     .httpBasic()
+                    .authenticationEntryPoint(customAuthEntryPoint)
                     .and().sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).sessionFixation().migrateSession()
                     .maximumSessions(1).maxSessionsPreventsLogin(true)
@@ -249,6 +254,7 @@ public class SecurePolicy {
                     .authorizeRequests()
                     .anyRequest().authenticated().and()
                     .httpBasic()
+                    .authenticationEntryPoint(customAuthEntryPoint)
                     .and().sessionManagement().sessionFixation().migrateSession()
                     .maximumSessions(1).maxSessionsPreventsLogin(true)
                     .expiredUrl("/user/loggedout");
@@ -266,4 +272,108 @@ public class SecurePolicy {
             return provider;
         }
     }
+
+
+    ////Kiosk configuration
+    @Configuration
+    @Order(4)
+    public static class KioskSecurityConfig extends WebSecurityConfigurerAdapter {
+
+
+        @Bean
+        protected SessionRegistryImpl kioskSessionRegistry(){
+            return new SessionRegistryImpl();
+        }
+
+        private final UserDetailsService kioskService;
+        private final PasswordEncoder passwordEncoder;
+        //WhiteListed urls from authentication
+
+
+        public KioskSecurityConfig(@Qualifier("kioskServiceImpl") UserDetailsService kioskService, PasswordEncoder passwordEncoder) {
+            this.kioskService = kioskService;
+            this.passwordEncoder = passwordEncoder;
+        }
+
+        //Security context configurer and session provider configurer
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http
+                    .logout(logout -> logout
+                            .logoutUrl("/kiosk/logout")
+                            .logoutSuccessHandler((request, response, authentication) -> {
+                                if(authentication != null){
+                                    User userDetails = (User) authentication.getPrincipal();
+                                    String username = userDetails.getUsername();
+
+                                    System.out.println("The kiosk " + username + " has been logged out and thus deactivated.");
+
+                                    response.sendRedirect(request.getContextPath());
+                                }
+
+                            })
+                            .invalidateHttpSession(true)
+                            .deleteCookies("JSESSIONID")
+                    )
+                    .antMatcher("/kiosk/***")
+                    //.antMatcher("/home")
+                    //Cross origin enable
+                    .cors().and()
+                    //Cross site request forgery disable for testing purposes
+                    .csrf().disable()//.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                    .formLogin().usernameParameter("username").passwordParameter("password")
+                    .successForwardUrl("/kiosk/login")
+                    .failureHandler((request, response, exception) -> {
+                        String kioskId = request.getParameter("kioskId");
+                        try {
+                            String error = exception.getMessage();
+                            String userIfExistsEmail = kioskService.loadUserByUsername(kioskId).getPassword();
+                            if (userIfExistsEmail.isEmpty()) {
+                                throw new Exception("A failed Kiosk login attempt with email: "
+                                        + userIfExistsEmail + ". Reason: " + error);
+                            }
+
+                            throw new Exception("A failed login attempt with email: "
+                                    + userIfExistsEmail + ". Reason: " + error);
+                        } catch (Exception e) {
+                            //event notifier increase user's failed count + 1
+                        }
+                    }).and()
+                    .authorizeRequests()
+                    //Allow all white-listed urls without authentication
+                    .antMatchers(WHITE_LIST_URLS)
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated().and()
+                    .httpBasic()
+                    .authenticationEntryPoint(customAuthEntryPoint)
+                    .and().sessionManagement().sessionFixation().migrateSession()
+                    .maximumSessions(1).maxSessionsPreventsLogin(true)
+                    .expiredUrl("/user/loggedout").sessionRegistry(kioskSessionRegistry());
+        }
+
+        //Data access object spring security configuration
+        @Override
+        protected void configure(AuthenticationManagerBuilder auth) {
+            auth.authenticationProvider(daoAuthenticationProvider());
+        }
+
+        public DaoAuthenticationProvider daoAuthenticationProvider() {
+            DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+            provider.setPasswordEncoder(passwordEncoder);
+            provider.setUserDetailsService(kioskService);
+            return provider;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
 }

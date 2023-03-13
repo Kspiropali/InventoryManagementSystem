@@ -11,9 +11,12 @@ public class WebController implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         System.out.println("--------------Web pages set successfully----------");
         //mapping pages in /templates to endpoints
-        registry.addViewController("/chat").setViewName("live_chat_page");
-        registry.addViewController("/http://localhost:8080/user/verifyRegistration?***").setViewName("email_confirmed_page");
-        registry.addViewController("/error").setViewName("error");
-        registry.addViewController("/settings").setViewName("account_settings_page");
+
+        registry.addViewController("/admin").setViewName("admin");
+        registry.addViewController("/home").setViewName("products_page");
+        registry.addViewController("/kiosk_login").setViewName("kiosk_login");
+        registry.addViewController("/payment_success").setViewName("payment_options");
+        registry.addViewController("/kiosk_checkout").setViewName("kiosk_checkout");
+        registry.addViewController("http://localhost:8080/user/verifyRegistration?***").setViewName("email_confirmation");
     }
 }
