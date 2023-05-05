@@ -1,3 +1,6 @@
 FROM  garethflowers/ftp-server
 #RUN mkdir /home/kspir/products
+EXPOSE 21
+EXPOSE 20
+EXPOSE 40000-40009
 COPY dockerfiles/products /home/kspir/products

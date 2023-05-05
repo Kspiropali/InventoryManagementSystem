@@ -10,7 +10,7 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/2.7.8/cb1e95433ef15ed363be6fcc538e8406aa7606f7/spring-boot-configuration-processor-2.7.8.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.24/13a394eed5c4f9efb2a6d956e2086f1d81e857d9/lombok-1.18.24.jar" />
         </processorPath>
-        <module name="Project.Backend-Server.main" />
+        <module name="Archived.Project.Backend-Server.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -18,5 +18,10 @@
       <module name="demo.main" target="17" />
       <module name="demo.test" target="17" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Archived.Project.Backend-Server.main" options="--add-exports jdk.internal.le/jdk.internal.org.jline.reader.impl=ALL-UNNAMED" />
+    </option>
   </component>
 </project>

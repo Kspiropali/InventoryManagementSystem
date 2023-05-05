@@ -9,5 +9,4 @@ public interface AdminService {
     void activateAdminAccount(Admin admin);
 
     String sendRegistrationConfirmationEmail(String email, String token);
-
 }

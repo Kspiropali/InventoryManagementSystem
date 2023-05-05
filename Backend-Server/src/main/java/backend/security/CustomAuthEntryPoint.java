@@ -27,6 +27,7 @@ public class CustomAuthEntryPoint extends BasicAuthenticationEntryPoint {
     public void afterPropertiesSet() {
         System.out.println("--------------Custom Security Authentication Provider set successfully!----------");
         setRealmName("Custom_Authentication_Realm");
+
         super.afterPropertiesSet();
     }
 }

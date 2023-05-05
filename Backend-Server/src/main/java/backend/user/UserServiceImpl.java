@@ -8,6 +8,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserDetailsService, UserService {
@@ -51,6 +55,27 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public void sendRegistrationConfirmationEmail(String sendTo, String token) {
         emailService.sendSimpleMail(sendTo, token);
        // emailService.sendMailWithAttachment(sendTo, token);
+    }
+
+    @Override
+    public Long getTotalUsers() {
+        return userRepository.count();
+    }
+
+    @Override
+    public Long getUsersLast24Hours() {
+        return userRepository.countUsersByCreatedAtAfter(new java.util.Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000));
+    }
+
+    @Override
+    public String getRegionalUsers() {
+        // get regions and amount of users in each region
+        // return as json
+        HashMap<String, Long> regionalUsers = new HashMap<>();
+        for (Region region : Region.values()) {
+            regionalUsers.put(String.valueOf(region), userRepository.countUsersByRegion(region));
+        }
+        return regionalUsers.toString();
     }
 
     @Override

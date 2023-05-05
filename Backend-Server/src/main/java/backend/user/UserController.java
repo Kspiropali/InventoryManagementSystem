@@ -9,9 +9,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletRequest;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -60,7 +62,10 @@ public class UserController {
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/login")
     //@PreAuthorize("hasAuthority('USER_WRITE')")
-    public String terminalLogin() {
+    public String terminalLogin(ServletRequest request) {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        System.out.println(username + " " + password);
         /*TODO: We cant just return an id here. Implementation of login tokens are required. We can save the token in
         cookies with expiration time etc.*/
         return "Login successful";

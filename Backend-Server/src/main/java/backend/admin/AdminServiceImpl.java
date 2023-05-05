@@ -38,4 +38,5 @@ public class AdminServiceImpl implements UserDetailsService, AdminService {
     public String sendRegistrationConfirmationEmail(String email, String token) {
         return null;
     }
+
 }

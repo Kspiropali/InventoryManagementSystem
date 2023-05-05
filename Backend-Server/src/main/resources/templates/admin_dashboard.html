@@ -1,0 +1,267 @@
+<html lang="en" style="
+">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Admin Dashboard</title>
+
+    <link href="/css/5.1.3-bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/css/material-design-lite.css">
+    <link href="/css/admin_dashboard.css" rel="stylesheet" id="rt_style_components" type="text/css">
+    <link href="/css/admin_dashboard_2.css" rel="stylesheet" type="text/css">
+
+    <script type="application/javascript" src="/js/libraries/chart-loader.js"></script>
+    <script type="application/javascript" src="/js/shared/vars.js"></script>
+    <script type="application/javascript" src="/js/custom/admin_dashboard.js"></script>
+</head>
+
+<body class="page-header-fixed page-content-white">
+<div class="page-wrapper">
+    <div class="page-container">
+        <div>
+            <div class="page-content" style="min-height:1331px">
+                <div class="page-bar">
+                    <div class="page-title-breadcrumb" style="margin-left: 3rem;">
+
+                        <div class="page-title" style="margin-left: 62rem;" id="dashboard_name">
+                            Welcome to the Dashboard, Kris
+                        </div>
+                    </div>
+                </div>
+
+                <div class="state-overview" style="margin-bottom: -1rem;margin-right: 1rem;margin-left: 1rem;">
+                    <div class="row">
+                        <div class="col-xl-3 col-md-6 col-12">
+                            <div class="info-box bg-b-green">
+									<span class="info-box-icon push-bottom"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                                 width="24" height="24"
+                                                                                 viewBox="0 0 24 24" fill="none"
+                                                                                 stroke="currentColor" stroke-width="2"
+                                                                                 stroke-linecap="round"
+                                                                                 stroke-linejoin="round"
+                                                                                 class="feather feather-users"
+                                                                                 style="margin-top: 1.4rem;">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7"
+                                                                                                           r="4"></circle><path
+                                            d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path
+                                            d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Total Users</span>
+                                    <span class="info-box-number" id="total_users"> 0 </span>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 65%"></div>
+                                    </div>
+                                    <span class="progress-description">
+											Highly Active Users
+										</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 col-12">
+                            <div class="info-box bg-b-yellow">
+									<span class="info-box-icon push-bottom"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                                 width="24" height="24"
+                                                                                 viewBox="0 0 24 24" fill="none"
+                                                                                 stroke="currentColor" stroke-width="2"
+                                                                                 stroke-linecap="round"
+                                                                                 stroke-linejoin="round"
+                                                                                 class="feather feather-user"
+                                                                                 style="margin-top: 1.4rem;">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12"
+                                                                                                           cy="7"
+                                                                                                           r="4"></circle></svg></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">New Users</span>
+                                    <span class="info-box-number" id="last24_users"> 0 </span>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 60%"></div>
+                                    </div>
+                                    <span class="progress-description" id="last24_percentage">
+											40% Increase in 28 Days
+										</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 col-12">
+                            <div class="info-box bg-b-blue">
+									<span class="info-box-icon push-bottom"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                                 width="24" height="24"
+                                                                                 viewBox="0 0 24 24" fill="none"
+                                                                                 stroke="currentColor" stroke-width="2"
+                                                                                 stroke-linecap="round"
+                                                                                 stroke-linejoin="round"
+                                                                                 class="feather feather-book"
+                                                                                 style="margin-top: 1.4rem;">
+                                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path
+                                            d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Total Products</span>
+                                    <span class="info-box-number" id="total_items">52</span>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 85%"></div>
+                                    </div>
+                                    <span class="progress-description">
+											85% Increase in 28 Days
+										</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 col-12">
+                            <div class="info-box bg-b-pink">
+									<span class="info-box-icon push-bottom"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                                 width="24" height="24"
+                                                                                 viewBox="0 0 24 24" fill="none"
+                                                                                 stroke="currentColor" stroke-width="2"
+                                                                                 stroke-linecap="round"
+                                                                                 stroke-linejoin="round"
+                                                                                 class="feather feather-book"
+                                                                                 style="margin-top: 1.4rem;">
+                                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path
+                                            d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Total Net Worth</span>
+                                    <span class="info-box-number" id="total_networth">13,921</span><span>£</span>
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 50%"></div>
+                                    </div>
+                                    <span class="progress-description">
+											50% Increase in 28 Days
+										</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row" style="margin-right: 0.3rem;margin-left: 0.4rem;">
+                    <div class="col-sm-6">
+                        <div class="card card-box">
+                            <div class="card-head">
+                                <header>Product Sales</header>
+                            </div>
+                            <div class="card-body">
+                                <div class="recent-report__chart">
+                                    <div style="min-height: 415px;display: flex">
+                                        <div id="product_sales1"></div>
+                                        <div id="product_sales2"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card card-box">
+                            <div class="card-head">
+                                <header>Country Graph</header>
+                            </div>
+                            <div class="card-body">
+                                <div class="recent-report__chart">
+                                    <div id="users_geochart" style="min-height: 415px;">
+                                        <!--CHART2 LOCATION-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-right: 0.5rem;margin-left: 0.4rem;">
+                    <div class="col-lg-9 col-md-12 col-sm-12 col-12">
+                        <div class="card-box">
+                            <div class="card-head">
+                                <header>Popular Products List</header>
+                            </div>
+                            <div class="card-body ">
+                                <div class="table-responsive">
+                                    <table class="table table-hover dashboard-task-infos">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Product Name</th>
+                                            <th>Product Category</th>
+                                            <th>Product Price</th>
+                                            <th>Origin of Purchase</th>
+                                            <th>Last Purchase</th>
+                                            <th>24 Hours Quantity</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class="patient-img">
+                                                <!--<img src="../assets/img/user/user1.jpg" alt="">-->
+                                            </td>
+                                            <td>John Doe</td>
+                                            <td>Science</td>
+                                            <td>xyz@email.com</td>
+                                            <td>Class A</td>
+                                            <td>Biology</td>
+                                            <td>10</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="box-title"><small class="pull-right small-lbl-green"><i
+                                        class="far fa-arrow-alt-circle-up"></i> Good</small> Kiosks Sales
+                                </div>
+                                <div class="mt-3">
+                                    <div class="stat-item">
+                                        <div class="h6">Overall Growth</div>
+                                        <b>35.80%</b>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="h6">Monthly</div>
+                                        <b>45.20%</b>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="h6">Day</div>
+                                        <b>5.50%</b>
+                                    </div>
+                                </div>
+                                <div id="schart1" style="min-height: 355px;">
+                                    <!--TODO: KIOSK CHART WORLD LOCATION-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                            <div class="card-box">
+                                <div class="card-head">
+                                    <header>HEALTH METRICS</header>
+                                </div>
+                                <div class="card-body ">
+                                    <div class="table-responsive" style="display: flex;">
+                                        <div id="health_metrics_table"></div>
+                                    </div>
+
+                                    <div id="misc_information"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                            <div class="card-box" style="margin-right: -1.4rem;">
+                                <div class="card-head">
+                                    <header>Recent Transactions</header>
+                                </div>
+                                <div class="card-body " style="margin-bottom: -2rem;min-height: 475px;">
+                                    <div class="table-responsive" id="recent_transactions_table">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

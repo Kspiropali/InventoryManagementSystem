@@ -28,6 +28,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     Optional<Item> findByItemTypeAndExpirationTimeIsLessThanEqual(final ItemType type, final Date date);
 
     @Query("select i from Item i where i.id = ?1")
+    @NotNull
     Optional<Item> findById(final @NotNull Long id);
 
     @Query("select i from Item i where i.createdAt = ?1")
@@ -35,4 +36,10 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     @Query("select i from Item i where i.createdAt <= ?1")
     Optional<Item> findByCreatedAtIsLessThanEqual(final Date date);
+
+    @Query("select i from Item i where i.barcodeText = ?1")
+    Item findItemByBarcodeText(String barcode);
+
+    @Query("select i from Item i where i.name = ?1")
+    Item findByName(String name);
 }

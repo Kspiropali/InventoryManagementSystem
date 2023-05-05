@@ -1,0 +1,32 @@
+
+body {
+    background: #2E95EF;
+    padding-top: 15%;
+}
+
+.title {
+    text-shadow: 1px 1px 0 #888;
+    line-height: normal;
+    font-family: serif;
+    font-size: 40px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    margin-left: 9rem;
+    color: black;
+}
+
+.row {
+    margin-left: 11rem;
+}
+
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+    margin-left: 12rem;
+    margin-top: 1rem;
+}
+
+*, ::after, ::before {
+    box-sizing: unset;
+}

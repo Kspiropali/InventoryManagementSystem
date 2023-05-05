@@ -9,16 +9,15 @@ function login() {
     }
 
     let user = username + ":" + password;
-    //console.log(user);
     let encodedUser = btoa(user);
-    //console.log(encodedUser);
 
     let settings = {
         "url": base_url+"user/login", "method": "POST", "headers": {
             "Authorization": "Basic " + encodedUser,
             "Content-Type": "application/json",
             "X-XSRF-TOKEN": getCookie("XSRF-TOKEN"),
-            "Access-Control-Allow-Origin": "http://localhost/",
+            "Access-Control-Allow-Origin": base_url,
+            //"Csrf-Token": getCookie("XSRF-TOKEN"),
             "Access-Control-Allow-Credentials": "true",
             "Access-Control-Allow-Methods": "GET, POST",
             "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With, X-XSRF-TOKEN",
@@ -30,9 +29,7 @@ function login() {
         // console.log(response);
         // console.log(response.status);
         if (response === "Login successful") {
-            document.cookie = "USERNAME=" + username;
-            document.cookie = "ROOM=" + "public";
-            window.location.href = base_url+"chat";
+            window.location.href = base_url+"user/products";
         } else if (response.status === 401 && response.responseText === "HTTP Status 401 - User is disabled\n") {
             sendNotification(401, "You need to activate your account first!");
         } else if (response.status === 401 && response.responseText === "HTTP Status 401 - Bad credentials\n") {
@@ -94,7 +91,8 @@ function register() {
         "url": base_url+"register", "method": "POST", "timeout": 0, "headers": {
             "Content-Type": "application/json",
             "X-XSRF-TOKEN": getCookie("XSRF-TOKEN"),
-            "Access-Control-Allow-Origin": "http://localhost/",
+            //"Csrf-Token": getCookie("XSRF-TOKEN"),
+            "Access-Control-Allow-Origin": base_url,
             "Access-Control-Allow-Credentials": "true",
             "Access-Control-Allow-Methods": "GET, POST",
             "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With, X-XSRF-TOKEN",
@@ -128,45 +126,6 @@ function register() {
 }
 
 
-function sendNotification(errorCode, message) {
-    let notification = document.getElementById("notification_box");
-
-    if (errorCode === 200) {
-        //Green notification
-        notification.innerHTML = ` <div class="alert fade alert-simple alert-success alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show">
-                                            <button type="button" class="close font__size-18" data-dismiss="alert">
-                                               <span aria-hidden="true"><a> <i class="fa fa-times greencross"></i></a></span>
-                                                <span class="sr-only">Close</span>
-                                            </button>
-                                            <i class="start-icon far fa-check-circle faa-tada animated"></i>
-                                            <strong class="font__weight-semibold">` + message + `</strong>
-                                        </div>`
-    } else if (errorCode === 401 || errorCode === 403) {
-        //Yellow notification
-        notification.innerHTML = `<div class="alert fade alert-simple alert-warning alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show" role="alert" data-brk-library="component__alert">
-          <button type="button" class="close font__size-18" data-dismiss="alert">
-                <span aria-hidden="true">
-                <i class="fa fa-times warning"></i>
-                </span>
-                <span class="sr-only">Close</span>
-                </button>
-          <i class="start-icon fa fa-exclamation-triangle faa-flash animated"></i>
-          <strong class="font__weight-semibold">` + message + `</strong> 
-        </div>`
-    } else if (errorCode === 500 || errorCode === 404) {
-        //Red notification
-        notification.innerHTML = `<div class="alert fade alert-simple alert-danger alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show" role="alert" data-brk-library="component__alert">
-          <button type="button" class="close font__size-18" data-dismiss="alert">
-                <span aria-hidden="true">
-                <i class="fa fa-times danger "></i>
-                </span>
-                <span class="sr-only">Close</span>
-                </button>
-          <i class="start-icon far fa-times-circle faa-pulse animated"></i>
-          <strong class="font__weight-semibold">` + message + `</strong>
-        </div>`
-    }
-}
 
 $(document).ready(function () {
 
@@ -175,7 +134,8 @@ $(document).ready(function () {
         "timeout": 0, "headers": {
             "Content-Type": "application/json",
             "X-XSRF-TOKEN": getCookie("XSRF-TOKEN"),
-            "Access-Control-Allow-Origin": "http://localhost/",
+            //"Csrf-Token": getCookie("XSRF-TOKEN"),
+            "Access-Control-Allow-Origin": base_url,
             "Access-Control-Allow-Credentials": "true",
             "Access-Control-Allow-Methods": "GET, POST",
             "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With, X-XSRF-TOKEN",

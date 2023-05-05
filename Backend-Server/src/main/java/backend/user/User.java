@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -41,14 +42,18 @@ public class User implements UserDetails {
     private int failedLoginAttempts = 0;
     private boolean credentialsNonExpired = true;
     private boolean enabled = false;
-
+    private Region region;
     GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
 
     public User(String email, String password) {
         this.email = email;
         this.password = password;
+        this.createdAt = new Date();
+        // select a random region
+        this.region = Region.values()[(int) (Math.random() * Region.values().length)];
     }
 
+    private Date createdAt;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(authority);
