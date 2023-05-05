@@ -88,7 +88,7 @@ function register() {
     }
 
     let settings = {
-        "url": base_url+"register", "method": "POST", "timeout": 0, "headers": {
+        "url": base_url+"user/register", "method": "POST", "timeout": 0, "headers": {
             "Content-Type": "application/json",
             "X-XSRF-TOKEN": getCookie("XSRF-TOKEN"),
             //"Csrf-Token": getCookie("XSRF-TOKEN"),
