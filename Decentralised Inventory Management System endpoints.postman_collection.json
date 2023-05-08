@@ -1,0 +1,1024 @@
+{
+	"info": {
+		"_postman_id": "d8f19855-a87f-4ef1-b0b8-1a0ea69e76d7",
+		"name": "Decentralised Inventory Management System endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23646690"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Admin Register",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"admintest@admintest.com\",\n    \"password\":\"admintest123!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/admin/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"admin",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Registration",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/admin/verifyRegistration?token=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"admin",
+								"verifyRegistration"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Resend Verification Token",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://locahost/admin/resendVerificationToken?token=",
+							"protocol": "http",
+							"host": [
+								"locahost"
+							],
+							"path": [
+								"admin",
+								"resendVerificationToken"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Browser Login",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/admin/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"admin",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Terminal Login",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/admin/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"admin",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get item's barcode by id",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/admin/get/item/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"admin",
+								"get",
+								"item",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forcefully logout kiosk",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/admin/kiosk/logout/testing123!",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"admin",
+								"kiosk",
+								"logout",
+								"testing123!"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Total Users",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/admin/users/total",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"admin",
+								"users",
+								"total"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get last 24 hours user count",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/admin/users/last24",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"admin",
+								"users",
+								"last24"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get total Items",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/admin/items/total",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"admin",
+								"items",
+								"total"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get total networth from items sold",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/admin/items/networth",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"admin",
+								"items",
+								"networth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get top 5 popular items by quantity",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/admin/items/top5quantity",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"admin",
+								"items",
+								"top5quantity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get users by region",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/admin/users/regional",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"admin",
+								"users",
+								"regional"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get last transactions",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/admin/analytics/transactions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"admin",
+								"analytics",
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get running system logs",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/admin/system/logs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"admin",
+								"system",
+								"logs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get running server ram stats",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/admin/system/ram",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"admin",
+								"system",
+								"ram"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get quantity sold at Date",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/analytics/getQuantitySoldAtDate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"analytics",
+								"getQuantitySoldAtDate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shared(All)",
+			"item": [
+				{
+					"name": "Get popular products",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/analytics/getPopularProducts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"analytics",
+								"getPopularProducts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Checkout items -> kiosks",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "testingbob123!",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "bob",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"products\": {\n        \n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/analytics/kiosk/checkout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"analytics",
+								"kiosk",
+								"checkout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Checkout items -> users",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"products\": []\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/analytics/user/checkout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"analytics",
+								"user",
+								"checkout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chat",
+			"item": []
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"testing\",\n    \"email\": \"testing@testing.com\",\n    \"password\": \"testing123!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/user/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify registration by email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/user/register/verifyRegistration?token=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"user",
+								"register",
+								"verifyRegistration"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Resend verification token",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/user/resendVerificationToken",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"user",
+								"resendVerificationToken"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Browser Login user",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "testingbob123!",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "bob",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Terminal login",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "testingbob123!",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "bob",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all items as json",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "testingbob123!",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "bob",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/user/getItems",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"user",
+								"getItems"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Kiosk",
+			"item": [
+				{
+					"name": "Terminal Login",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "testing123!",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "kiosk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/kiosk/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"kiosk",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check barcode validity",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/kiosk/checkItemByBarcode?barcode=barcodehere",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"kiosk",
+								"checkItemByBarcode"
+							],
+							"query": [
+								{
+									"key": "barcode",
+									"value": "barcodehere"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check kiosk login status",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "testing123!",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "kiosk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/kiosk/ping",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"kiosk",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

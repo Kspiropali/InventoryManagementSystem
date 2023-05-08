@@ -1,12 +1,10 @@
 package backend.analytics;
 
-import backend.admin.AdminService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,20 +14,19 @@ import java.util.List;
 @RequestMapping(path = "/analytics")
 public class AnalyticsController {
     private final AnalyticsService analyticsService;
-    private final AdminService adminService;
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/getQuantitySoldAtDate")
     public String getProductsSoldAtDate() {
 
-        return "";
+        return "not implemented";
     }
 
 
     // has role admin or kiosk or user
     @PreAuthorize("hasRole('ADMIN') or hasRole('KIOSK') or hasRole('USER')")
-    @PostMapping("/getPopularProducts/{number}")
-    public HashMap<String, Integer> getPopularProducts(@PathVariable("number") int number, Principal authentication) {
+    @PostMapping("/getPopularProducts")
+    public HashMap<String, Integer> getPopularProducts() {
 
         return analyticsService.getPopularProducts();
     }
