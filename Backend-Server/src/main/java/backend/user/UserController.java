@@ -1,7 +1,9 @@
 package backend.user;
 
+import backend.event.Publisher;
 import backend.item.Item;
 import backend.item.ItemRepository;
+import backend.item.ItemService;
 import backend.item.ItemType;
 import backend.token.Token;
 import backend.token.TokenService;
@@ -15,9 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletRequest;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @AllArgsConstructor
 @RestController
@@ -26,7 +26,8 @@ public class UserController {
     //private final BeanConfigurer beanConfigurer;
     private final UserService userService;
     private final TokenService tokenService;
-    private final ItemRepository itemRepository;
+    private final Publisher eventPublisher;
+    private final ItemService itemService;
 
     @PostMapping(path = "/register")
     public String registerUser(@RequestBody User user) {
@@ -46,6 +47,8 @@ public class UserController {
         Object validated_user = tokenService.validateToken(token);
         userService.activateUserAccount((User) validated_user);
         tokenService.removeTokenByToken(token);
+        System.out.println(((User) validated_user).getUsername() + " verified his account");
+        eventPublisher.publishCustomEvent(((User) validated_user).getUsername(), "user register");
         return "User verified successfully!";
     }
 
@@ -89,5 +92,23 @@ public class UserController {
         return ResponseEntity.ok().contentType(MediaType.TEXT_PLAIN).body("Login successful");
     }
 
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/getItems")
+    public List<Item> getAllItems() {
+        // return item name, item price, item image and item type
+        ArrayList<Item> items = (ArrayList<Item>) itemService.getAllItems();
+        for (Item item : items) {
+            item.setId(null);
+            item.setBarcodeImage(null);
+            item.setBarcodeText(null);
+            item.setCreatedAt(null);
+            item.setExpirationTime(null);
+            item.setQrCodeImage(null);
+            item.setQrCodeText(null);
+            item.setQuantity(0);
+        }
+
+        return items;
+    }
 }
 

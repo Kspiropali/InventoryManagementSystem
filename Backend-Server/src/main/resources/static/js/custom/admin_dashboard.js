@@ -19,6 +19,7 @@ google.charts.load('current', {
 });
 
 
+
 function setupTopNumbers() {
     // bring all actively registered users
     fetch(base_url + "admin/users/total", requestOptions)
@@ -34,8 +35,14 @@ function setupTopNumbers() {
                     // calculate difference between total and last 24 hours, percentage
                     let total = document.getElementById("total_users").innerHTML;
                     let last24 = document.getElementById("last24_users").innerHTML;
-                    let percentage = ((total - last24) / total) * 100;
-                    document.getElementById("last24_percentage").innerHTML = percentage.toFixed(2) + "%" + " increase in the last 24 hours";
+                    if (last24 === "0") {
+                        document.getElementById("last24_percentage").innerHTML = "0% increase in the last 24 hours";
+                    } else {
+                        let difference = total - last24;
+                        let increase_percentage = ((total / difference) * 100).toFixed(2);
+
+                        document.getElementById("last24_percentage").innerHTML = increase_percentage + "% increase in the last 24 hours";
+                    }
                 })
                 .catch(error => console.log('error', error));
         })
@@ -64,6 +71,14 @@ function drawProductSalesCharts() {
         .then(result => {
             // result is a string with the format: "product_name quantity\nproduct_name quantity\n..."
             let rows = result.split("\n");
+
+            // sort rows by quantity
+            rows.sort(function(a, b) {
+                let a_quantity = parseInt(a.split(" ")[1]);
+                let b_quantity = parseInt(b.split(" ")[1]);
+                return b_quantity - a_quantity;
+            });
+            console.log(rows);
             let data = new google.visualization.DataTable();
             data.addColumn('string', 'Product');
             data.addColumn('number', 'Quantity');
@@ -151,7 +166,7 @@ function drawHealthStatistics() {
         redirect: 'follow'
     };
 
-    fetch(base_url + "admin/health", requestOptions)
+    fetch(base_url + "admin/actuator/health", requestOptions)
         .then(response => response.text())
         .then(result => {
             let free_mem_in_gigas = JSON.parse(result).components.diskSpace.details.free / 1000000000;
@@ -172,20 +187,114 @@ function drawHealthStatistics() {
                 pieHole: 0.35,
             }
 
-            let chart = new google.visualization.PieChart(document.getElementById('health_metrics_table'));
+            let chart = new google.visualization.PieChart(document.getElementById('health_metrics_table_disk'));
+            chart.draw(data, options);
+        })
+        .catch(error => console.log('error', error));
+
+    //getting ready to fetch ram data
+    requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    fetch(base_url + "admin/system/ram", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            // returns a response of string type: "Heap Memory Used: 143.9681MB
+            // Max: 8012.0MB
+            // Non Heap Memory Used: 115.08923MB"
+            let rows = result.split("\n");
+
+            let heap_mem = rows[0].split(": ")[1];
+            heap_mem = heap_mem.substring(0, heap_mem.length - 2)
+            let max_heap_mem = rows[1].split(": ")[1];
+            max_heap_mem = max_heap_mem.substring(0, max_heap_mem.length - 2);
+
+
+            let data = new google.visualization.arrayToDataTable([
+                ['Component', 'Status'],
+                ['Heap Memory Used', parseFloat(heap_mem)],
+                ['Non Heap Memory Used', parseFloat(max_heap_mem)],
+            ]);
+
+            let options = {
+                'width': 600,
+                'height': 350,
+                pieHole: 0.35,
+            }
+
+            let chart = new google.visualization.PieChart(document.getElementById('health_metrics_table_ram'));
             chart.draw(data, options);
         })
         .catch(error => console.log('error', error));
 }
 
+function fetchSystemLogs(){
+    let requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
 
+    fetch(base_url + "admin/system/logs", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            let pre = document.getElementById("system_logs");
+            pre.innerHTML = result;
+            pre.scrollTop = pre.scrollHeight;
+        })
+        .catch(error => console.log('error', error));
+}
+
+function logout() {
+    // delete all cookies and sesison storage
+    document.cookie.split(";").forEach(function (c) {
+        document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+    });
+    let requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+
+    fetch(base_url+"admin/logout", requestOptions);
+    sessionStorage.clear();
+    // refresh page for changes to take effect
+    document.location.href = base_url+"admin";
+}
+
+function kioskLogout(){
+    let kioskId = document.getElementById("kiosk_id").value;
+
+    let requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    fetch(base_url+"admin/kiosk/logout/"+kioskId, requestOptions).then(response => response.text())
+        .then(result => {
+            if(result === "Kiosk logged out"){
+                sendNotification(200, "Kiosk logged out");
+            }else if (result === "Kiosk is already logged out"){
+                sendNotification(500, "Kiosk is logged out already");
+            } else if(result === "Kiosk does not exist"){
+                sendNotification(401, "Kiosk does not exist")
+            }
+        })
+        .catch(error => sendNotification(501, "Server is down"));
+
+
+    document.getElementById("kiosk_id").value = "";
+}
 
 function drawCharts() {
     drawProductSalesCharts();
     drawGeoChart();
     drawRecentTransactionsTable();
     drawHealthStatistics();
-    drawMiscInformation();
+    fetchSystemLogs();
 }
 
 setupTopNumbers();

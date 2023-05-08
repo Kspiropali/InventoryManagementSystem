@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,20 +24,21 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 
     public User registerUser(User user) {
-        if (checkIfUserExist(user.getEmail())) {
-            try {
-                throw new Exception("User already exists with this email");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        // check if username exists
+        if (userRepository.findUserByUsername(user.getUsername()).isPresent()) {
+            throw new IllegalStateException("username already exists");
         }
-
-        //Password validation needed
+        // check if email exists
+        if (userRepository.findUserByEmail(user.getEmail()).isPresent()) {
+            throw new IllegalStateException("email already exists");
+        }
 
 
         User user_create = new User();
+        user_create.setUsername(user.getUsername());
         user_create.setEmail(user.getEmail());
         user_create.setPassword(passwordEncoder.encode(user.getPassword()));
+        user_create.setCreatedAt(new Date());
 
         userRepository.save(user_create);
 
@@ -46,10 +48,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public void activateUserAccount(User user) {
         user.setEnabled(true);
         userRepository.save(user);
-    }
-
-    public boolean checkIfUserExist(String email) {
-        return userRepository.findUserByEmail(email).isPresent();
     }
 
     public void sendRegistrationConfirmationEmail(String sendTo, String token) {
@@ -79,11 +77,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findUserByEmail(email)
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findUserByUsername(username)
                 .orElseThrow(() ->
                         new UsernameNotFoundException(
-                                String.format("user with email %s not found", email)));
+                                String.format("user with email %s not found", username)));
     }
 }
 

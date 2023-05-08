@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Products</title>
@@ -6,14 +7,18 @@
 
     <link href="/css/3.3.7-bootstrap.min.css" rel="stylesheet">
     <link href="/css/products.css" rel="stylesheet">
+    <link href="/css/chat.css" rel="stylesheet">
 
     <script type="application/javascript" src="/js/shared/vars.js"></script>
+    <script type="application/javascript" src="/js/libraries/jquery.min.js"></script>
+    <script type="application/javascript" src="/js/libraries/sockjs.min.js"></script>
+    <script type="application/javascript" src="/js/libraries/stomp.min.js"></script>
+
 
 </head>
-<body style="">
-<div class="container bootdey">
+<body>
+<div class="container bootdey" style="display: inline-block;margin-left: 25rem">
     <div class="col-md-3">
-
 
         <section class="panel">
             <header class="panel-heading">
@@ -92,34 +97,64 @@
                 </div>
             </div>
         </section>
+
+
     </div>
     <div class="col-md-9">
-        <div class="row product-list">
-            <div class="col-md-4">
-                <section class="panel">
-                    <div class="pro-img-box">
-                        <img class="custom-big-image" src="https://www.bootdey.com/image/250x220/20B2AA/000000" alt="">
-                        <a href="#" class="adtocart">
-                            <img class="custom-image" src="/images/add_basket.png" alt="add to basket">
-                        </a>
+        <div class="row product-list" id="products_list">
+
+
+        </div>
+    </div>
+
+
+    <div class="shopping-cart" id="shopping_basket"
+         style="background: #aae889;position: absolute;margin-left: 113rem;height: 101rem;width: 27%;overflow-y: scroll;margin-top: 0.5rem;">
+        <div class="title">
+            Shopping Cart
+            <button class="title" onclick="logout()"
+                    style="margin-left: 8rem;background: #ec2121;color: black;width: 26%;position: absolute;margin-top: -2rem;height: 6%;">
+                Logout
+            </button>
+            <button class="title" onclick="checkout()"
+                    style="margin-left: 30rem;background: aquamarine;width: 26%;position: absolute;margin-top: -2rem;height: 6%;">
+                Checkout
+            </button>
+        </div>
+
+        <!--Here go products added in basket-->
+
+    </div>
+
+
+    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9" style="
+    width: 60rem;
+    position: absolute;
+    /* display: none; */
+    margin-top: 103rem;
+    margin-left: 117rem;
+">
+
+
+        <div class="chat-container" id="main_chat_box">
+            <div class="wrapper">
+                <div class="main">
+                    <div class="px-2 scroll" id="scroller">
+                        <ul class="chat-box chatContainerScroll" id="chat_message_box">
+                            <!--USER MESSAGES-->
+
+                        </ul>
                     </div>
-                    <div class="panel-body text-center">
-                        <h4>
-                            <a href="#" class="pro-title">
-                                Leopard Shirt Dress
-                            </a>
-                        </h4>
-                        <p class="price">$300.00</p>
-                    </div>
-                </section>
+                </div>
+            </div>
+
+            <div class="form-group mt-3 mb-0">
+                <textarea type="text" class="form-control" id="chat_box" rows="3"
+                          placeholder="Type your message here..." autocomplete="off"></textarea>
             </div>
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-
-</script>
-
+<script type="application/javascript" src="/js/custom/products_page.js"></script>
 </body>
 </html>

@@ -23,6 +23,7 @@ function admin_login(){
         .then(response => response.text())
         .then(result => {
             if(result === "Logged in!"){
+                document.cookie = "username="+email;
                 window.location.href = base_url+"admin/dashboard";
             }else{
                 sendNotification(401, "Wrong credentials!")

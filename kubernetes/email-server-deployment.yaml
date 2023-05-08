@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: email-server
+  name: email-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: email-server
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ./kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/email_net: "true"
+        io.kompose.service: email-server
+    spec:
+      containers:
+        - image: maildev/maildev:2.0.5
+          name: email-server
+          ports:
+            - containerPort: 1080
+            - containerPort: 1025
+          resources: {}
+      restartPolicy: Always
+status: {}

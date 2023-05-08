@@ -38,39 +38,6 @@ public class KioskController {
     }
 
 
-//    @PreAuthorize("hasRole('KIOSK')")
-//    @PostMapping("/logout")
-//    public ResponseEntity<String> termLogout(Authentication authentication, HttpServletRequest request, javax.servlet.http.HttpServletResponse response) {
-//        // Logout from kiosk by changing availability to true
-//        String unitId = authentication.getName();
-//        kioskService.changeKioskAvailability(unitId, true);
-//        // delete cookies and session ids
-//
-//        boolean isSecure = false;
-//        String contextPath = null;
-//        if (request != null) {
-//            HttpSession session = request.getSession(false);
-//            if (session != null) {
-//                session.invalidate();
-//            }
-//            isSecure = request.isSecure();
-//            contextPath = request.getContextPath();
-//        }
-//        SecurityContext context = SecurityContextHolder.getContext();
-//        SecurityContextHolder.clearContext();
-//        context.setAuthentication(null);
-//        if (response != null) {
-//            Cookie cookie = new Cookie("JSESSIONID", null);
-//            String cookiePath = StringUtils.hasText(contextPath) ? contextPath : "/";
-//            cookie.setPath(cookiePath);
-//            cookie.setMaxAge(0);
-//            cookie.setSecure(isSecure);
-//            response.addCookie(cookie);
-//        }
-//
-//        return ResponseEntity.ok("Kiosk Logout Successful");
-//    }
-
     @PreAuthorize("hasRole('KIOSK')")
     @PostMapping("/checkItemByBarcode")
     public String getItemByBarcode(@RequestParam String barcode, Authentication auth) {

@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping(path = "/admin")
@@ -155,5 +157,21 @@ public class AdminController {
         String transactions = analyticsService.getTransactions();
 
         return ResponseEntity.ok().body(transactions);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/system/logs")
+    public ResponseEntity<String> getSystemLogs() throws IOException {
+        String systemLogs = analyticsService.getSystemLogs();
+
+        return ResponseEntity.ok().body(systemLogs);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/system/ram")
+    public ResponseEntity<String> getSystemRam() throws IOException {
+        String systemRam = analyticsService.getSystemRam();
+
+        return ResponseEntity.ok().body(systemRam);
     }
 }

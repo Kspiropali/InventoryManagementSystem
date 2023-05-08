@@ -18,4 +18,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select count(u) from User u where u.region = ?1")
     Long countUsersByRegion(Region region);
+
+    @Query("select u from User u where u.username = ?1")
+    Optional<User> findUserByUsername(String username);
 }

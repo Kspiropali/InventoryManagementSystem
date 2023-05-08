@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: email-server
+  name: email_server
+spec:
+  ports:
+    - name: "1080"
+      port: 1080
+      targetPort: 1080
+    - name: "1025"
+      port: 1025
+      targetPort: 1025
+  selector:
+    io.kompose.service: email-server
+status:
+  loadBalancer: {}

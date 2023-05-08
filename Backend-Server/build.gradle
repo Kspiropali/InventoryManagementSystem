@@ -86,6 +86,15 @@ tasks.named('test') {
     outputs.dir snippetsDir
 }
 
+test {
+    useJUnitPlatform()
+    testLogging {
+        events 'passed', 'failed', 'skipped'
+        exceptionFormat 'full'
+        showStandardStreams = true
+    }
+}
+
 tasks.named('asciidoctor') {
     inputs.dir snippetsDir
     dependsOn test

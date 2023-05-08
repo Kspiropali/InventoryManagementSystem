@@ -74,7 +74,7 @@ public class ItemConfig {
 //        baos.reset();
 //        ftpClient.retrieveFile("egg_noodles.jpg", baos);
         in = getClass().getResourceAsStream("/static/images/products/egg_noodles.jpg");
-        Item egg_noodles = new Item("Egg Noodles", 1.95F, new Date(), ItemType.FRESH,
+        Item egg_noodles = new Item("Egg_Noodles", 1.95F, new Date(), ItemType.FRESH,
                 in.readAllBytes());
         items.add(egg_noodles);
 
@@ -90,7 +90,7 @@ public class ItemConfig {
 //        baos.reset();
 //        ftpClient.retrieveFile("passion_fruit.jpg", baos);
         in = getClass().getResourceAsStream("/static/images/products/passion_fruit.jpg");
-        Item passion_fruit = new Item("Passion Fruit", 7.95F, new Date(), ItemType.FRUIT,
+        Item passion_fruit = new Item("Passion_Fruit", 7.95F, new Date(), ItemType.FRUIT,
                 in.readAllBytes());
         items.add(passion_fruit);
 

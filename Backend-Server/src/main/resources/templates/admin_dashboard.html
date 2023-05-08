@@ -1,18 +1,31 @@
-<html lang="en" style="
-">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>Admin Dashboard</title>
 
+    <!--                         LIVE CHAT DEPENDENCIES                         -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/chat.css" type="text/css">
+
+    <script type="application/javascript" src="/js/libraries/jquery.min.js"></script>
+    <script type="application/javascript" src="/js/libraries/sockjs.min.js"></script>
+    <script type="application/javascript" src="/js/libraries/stomp.min.js"></script>
+
+    <!-------------------------------------------------->
+
     <link href="/css/5.1.3-bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="/css/material-design-lite.css">
-    <link href="/css/admin_dashboard.css" rel="stylesheet" id="rt_style_components" type="text/css">
+    <link href="/css/material-design-lite.css" rel="stylesheet" type="text/css">
+    <link href="/css/admin_dashboard.css" rel="stylesheet" type="text/css">
     <link href="/css/admin_dashboard_2.css" rel="stylesheet" type="text/css">
 
     <script type="application/javascript" src="/js/libraries/chart-loader.js"></script>
     <script type="application/javascript" src="/js/shared/vars.js"></script>
+    <script type="application/javascript" src="/js/shared/notification.js"></script>
     <script type="application/javascript" src="/js/custom/admin_dashboard.js"></script>
+
+
 </head>
 
 <body class="page-header-fixed page-content-white">
@@ -21,11 +34,16 @@
         <div>
             <div class="page-content" style="min-height:1331px">
                 <div class="page-bar">
-                    <div class="page-title-breadcrumb" style="margin-left: 3rem;">
+                    <div class="page-title-breadcrumb" style="margin-left: 3rem; display: flex">
 
                         <div class="page-title" style="margin-left: 62rem;" id="dashboard_name">
-                            Welcome to the Dashboard, Kris
+
                         </div>
+
+                        <button onclick="logout()"
+                                style="color: white;margin-left: 5rem;background: #e21313;width: 7rem;height: 4rem;margin-top: 0.84rem;">
+                            Logout
+                        </button>
                     </div>
                 </div>
 
@@ -47,7 +65,7 @@
                                             d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">Total Users</span>
-                                    <span class="info-box-number" id="total_users"> 0 </span>
+                                    <span class="info-box-number" id="total_users">  </span>
                                     <div class="progress">
                                         <div class="progress-bar" style="width: 65%"></div>
                                     </div>
@@ -72,13 +90,12 @@
                                                                                                            r="4"></circle></svg></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">New Users</span>
-                                    <span class="info-box-number" id="last24_users"> 0 </span>
+                                    <span class="info-box-number" id="last24_users">  </span>
                                     <div class="progress">
                                         <div class="progress-bar" style="width: 60%"></div>
                                     </div>
                                     <span class="progress-description" id="last24_percentage">
-											40% Increase in 28 Days
-										</span>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +113,7 @@
                                             d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">Total Products</span>
-                                    <span class="info-box-number" id="total_items">52</span>
+                                    <span class="info-box-number" id="total_items"></span>
                                     <div class="progress">
                                         <div class="progress-bar" style="width: 85%"></div>
                                     </div>
@@ -120,7 +137,7 @@
                                             d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">Total Net Worth</span>
-                                    <span class="info-box-number" id="total_networth">13,921</span><span>£</span>
+                                    <span class="info-box-number" id="total_networth"></span><span>£</span>
                                     <div class="progress">
                                         <div class="progress-bar" style="width: 50%"></div>
                                     </div>
@@ -170,81 +187,144 @@
                     <div class="col-lg-9 col-md-12 col-sm-12 col-12">
                         <div class="card-box">
                             <div class="card-head">
-                                <header>Popular Products List</header>
+                                <header>Server Logs</header>
                             </div>
                             <div class="card-body ">
                                 <div class="table-responsive">
-                                    <table class="table table-hover dashboard-task-infos">
-                                        <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Product Name</th>
-                                            <th>Product Category</th>
-                                            <th>Product Price</th>
-                                            <th>Origin of Purchase</th>
-                                            <th>Last Purchase</th>
-                                            <th>24 Hours Quantity</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td class="patient-img">
-                                                <!--<img src="../assets/img/user/user1.jpg" alt="">-->
-                                            </td>
-                                            <td>John Doe</td>
-                                            <td>Science</td>
-                                            <td>xyz@email.com</td>
-                                            <td>Class A</td>
-                                            <td>Biology</td>
-                                            <td>10</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                                    <pre id="system_logs" style="height: 28.7rem;">
+
+                                         <!--SYSTEMS LOGS GO HERE-->
+
+                                    </pre>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-12 col-12">
                         <div class="card">
                             <div class="card-body">
                                 <div class="box-title"><small class="pull-right small-lbl-green"><i
-                                        class="far fa-arrow-alt-circle-up"></i> Good</small> Kiosks Sales
-                                </div>
-                                <div class="mt-3">
-                                    <div class="stat-item">
-                                        <div class="h6">Overall Growth</div>
-                                        <b>35.80%</b>
-                                    </div>
-                                    <div class="stat-item">
-                                        <div class="h6">Monthly</div>
-                                        <b>45.20%</b>
-                                    </div>
-                                    <div class="stat-item">
-                                        <div class="h6">Day</div>
-                                        <b>5.50%</b>
-                                    </div>
+                                        class="far fa-arrow-alt-circle-up"></i> Good</small> Live Chat Support
                                 </div>
                                 <div id="schart1" style="min-height: 355px;">
-                                    <!--TODO: KIOSK CHART WORLD LOCATION-->
+                                    <!------------------------------------------------------------------------------------------------------------------------------------->
+
+                                    <div id="main_chat_box" class="container" style="display: none">
+
+                                        <!-- Content wrapper start -->
+                                        <div class="content-wrapper">
+
+                                            <!-- Row start -->
+                                            <div class="row gutters">
+
+                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
+                                                    <div class="card m-0">
+
+                                                        <!-- Row start -->
+                                                        <div class="row no-gutters">
+                                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3 col-3">
+                                                                <div class="users-container" style="margin-top: 3.7rem">
+
+                                                                    <div class="wrapper">
+                                                                        <div class="main">
+                                                                            <div class="px-2 scroll">
+                                                                                <ul class="users" id="active_users">
+
+                                                                                    <!--Here go all the registered users, along with their active status(red or green)-->
+
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                </div>
+
+                                                                <!--Currently logged-in user area-->
+
+
+                                                            </div>
+
+
+                                                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
+
+                                                                <!-- Room id display number(selected user) -->
+                                                                <div class="selected-user"
+                                                                     style="margin-top: 1rem;margin-left: 6rem;">
+                                                                    <span>To:
+                                                                        <span class="name" id="selected_user_name">
+                                                                            <!--Here goes currently loaded roomId -->
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+
+
+                                                                <div class="chat-container">
+                                                                    <div class="wrapper">
+                                                                        <div class="main">
+                                                                            <div class="px-2 scroll" id="scroller">
+                                                                                <ul class="chat-box chatContainerScroll"
+                                                                                    id="chat_message_box">
+                                                                                    <!--USER MESSAGES-->
+
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group mt-3 mb-0">
+                                                                        <textarea type="text" class="form-control"
+                                                                                  id="chat_box" rows="3"
+                                                                                  placeholder="Type your message here..."
+                                                                                  autocomplete="off"
+                                                                                  style="width: 36.1rem;margin-left: -13.6rem;height: 4rem; display: none"></textarea>
+                                                                    </div>
+
+
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+                                                        <!-- Row end -->
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <!-- Row end -->
+
+                                        </div>
+                                        <!-- Content wrapper end -->
+
+                                    </div>
+                                    <!------------------------------------------------------------------------------------------------------------------------------------->
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
+
                         <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                             <div class="card-box">
                                 <div class="card-head">
                                     <header>HEALTH METRICS</header>
                                 </div>
-                                <div class="card-body ">
+                                <div class="card-body "
+                                     style="width: fit-content;height: fit-content;display: contents;">
                                     <div class="table-responsive" style="display: flex;">
-                                        <div id="health_metrics_table"></div>
+                                        <div id="health_metrics_table_disk"></div>
+                                        <div id="health_metrics_table_ram"></div>
                                     </div>
 
                                     <div id="misc_information"></div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                             <div class="card-box" style="margin-right: -1.4rem;">
                                 <div class="card-head">
@@ -257,6 +337,19 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div style="margin-left: 1rem;margin-top: 32rem;position: absolute;">
+                            <a>Forcefully logout a kiosk:</a>
+                            <input type="text" id="kiosk_id" placeholder="Kiosk ID" required="required" style="color: black">
+                            <button onclick="kioskLogout()"
+                                    style="color: white;margin-left: 5rem;background: #e21313;width: 7rem;margin-top: -5rem;/* margin-left: 40rem; */">
+                                Logout
+                            </button>
+                            <div id="notification_box" class="col-sm-12" onclick="hide_notification()" style="width: 30rem; height: 4rem;">
+
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -264,4 +357,6 @@
     </div>
 </div>
 </body>
+<script type="application/javascript" src="/js/custom/live_chat.js"></script>
+
 </html>

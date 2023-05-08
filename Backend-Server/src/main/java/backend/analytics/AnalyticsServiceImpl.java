@@ -12,6 +12,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.io.*;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryUsage;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
@@ -59,6 +64,7 @@ public class AnalyticsServiceImpl implements AnalyticsService, UserDetailsServic
         return results;
     }
 
+    // for kiosk checkout
     @Override
     public String checkout(List<AnalyticsModel> items, String unitId) {
         // save the items to the database
@@ -70,8 +76,25 @@ public class AnalyticsServiceImpl implements AnalyticsService, UserDetailsServic
         for (AnalyticsModel analyticsModel : items) {
             analyticsModel.setUnitId(kiosk);
             analyticsModel.setDatePurchased(new Date());
-            analyticsModel.setTotal_profit(analyticsModel.getPrice() * analyticsModel.getQuantity());
+            analyticsModel.setTotal_profit(analyticsModel.getPrice());
+            analyticsModel.setQuantity(analyticsModel.getQuantity());
             analyticsModel.setInitiator("Kiosk");
+            analyticsRepository.save(analyticsModel);
+        }
+
+        return "Success";
+    }
+
+    // for user checkout
+    @Override
+    public String checkout(List<AnalyticsModel> items) {
+        // save the items to the database, no kioskId since a user initiated the checkout
+        for (AnalyticsModel analyticsModel : items) {
+            analyticsModel.setUnitId(null);
+            analyticsModel.setDatePurchased(new Date());
+            analyticsModel.setTotal_profit(analyticsModel.getPrice());
+            analyticsModel.setQuantity(analyticsModel.getQuantity());
+            analyticsModel.setInitiator("User");
             analyticsRepository.save(analyticsModel);
         }
 
@@ -93,11 +116,33 @@ public class AnalyticsServiceImpl implements AnalyticsService, UserDetailsServic
     public String getTop5Quantity() {
         // return 5 top product names and quantity by most quantity
         List<AnalyticsModel> model = analyticsRepository.findAllByOrderByQuantity();
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < 5; i++) {
-            stringBuilder.append(model.get(i).getName()).append(" ").append(model.get(i).getQuantity()).append("\n");
+        System.out.println(model);
+        // there are multiple products with the same name, but different quantity
+        // so we need to add the quantity together
+        HashMap<String, Integer> results = new HashMap<>();
+        for (AnalyticsModel analyticsModel : model) {
+            if (results.containsKey(analyticsModel.getName())) {
+                results.put(analyticsModel.getName(), results.get(analyticsModel.getName()) + analyticsModel.getQuantity());
+            } else {
+                results.put(analyticsModel.getName(), analyticsModel.getQuantity());
+            }
         }
+        System.out.println(results);
+        // build with string builder the final string
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String key : results.keySet()) {
+            stringBuilder.append(key).append(" ").append(results.get(key)).append("\n");
+        }
+
+        // remove last \n
+        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
         return stringBuilder.toString();
+
+//        StringBuilder stringBuilder = new StringBuilder();
+//        for (int i = 0; i < 5; i++) {
+//            stringBuilder.append(model.get(i).getName()).append(" ").append(model.get(i).getQuantity()).append("\n");
+//        }
+//        return stringBuilder.toString();
     }
 
     @Override
@@ -109,6 +154,42 @@ public class AnalyticsServiceImpl implements AnalyticsService, UserDetailsServic
             stringBuilder.append(model.get(i).getId()).append(" ").append(model.get(i).getName()).append(" ").append(model.get(i).getInitiator()).append(" ").append(model.get(i).getTotal_profit()).append(" ").append(model.get(i).getQuantity()).append("\n");
         }
         return stringBuilder.toString();
+    }
+
+    @Override
+    public String getSystemLogs() throws IOException {
+        // Open the log file in read-only mode
+        try (RandomAccessFile file = new RandomAccessFile("Backend-Server/src/main/resources/logs/spring.log", "r")) {
+            // Seek to the end of the file
+            long fileLength = file.length();
+            if (fileLength == 0) {
+                return "";
+            }
+            file.seek(fileLength);
+
+            // Read the last 10,000 characters from the file
+            int bufferSize = Math.min(100000, (int) fileLength);
+            byte[] buffer = new byte[bufferSize];
+            file.seek(fileLength - bufferSize);
+            file.read(buffer, 0, bufferSize);
+
+            // Convert the buffer to a string and return it
+            return new String(buffer, StandardCharsets.UTF_8);
+        }
+    }
+
+    @Override
+    public String getSystemRam() {
+        // get the system used and total ram
+        MemoryMXBean memoryBean = ManagementFactory.getMemoryMXBean();
+        MemoryUsage heapMemoryUsage = memoryBean.getHeapMemoryUsage();
+        MemoryUsage nonHeapMemoryUsage = memoryBean.getNonHeapMemoryUsage();
+
+        float usedHeapMemory = (float) heapMemoryUsage.getUsed() / (1024*1024);
+        float maxHeapMemory = (float) heapMemoryUsage.getMax() / (1024*1024);
+        float usedNonHeapMemory = (float) nonHeapMemoryUsage.getUsed() / (1024*1024);
+
+        return "Heap Memory Used: " + usedHeapMemory + "MB\nMax: " + maxHeapMemory + "MB\nNon Heap Memory Used: " + usedNonHeapMemory + "MB";
     }
 
 

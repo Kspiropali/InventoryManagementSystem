@@ -29,6 +29,7 @@ function login() {
         // console.log(response);
         // console.log(response.status);
         if (response === "Login successful") {
+            document.cookie = "username="+username;
             window.location.href = base_url+"user/products";
         } else if (response.status === 401 && response.responseText === "HTTP Status 401 - User is disabled\n") {
             sendNotification(401, "You need to activate your account first!");
@@ -84,7 +85,7 @@ function register() {
     }
 
     let user = {
-        "username": username, "password": password, "email": email, "passwordConfirm": passwordConfirm
+        "username": username, "password": password, "email": email
     }
 
     let settings = {

@@ -36,10 +36,18 @@ public class AnalyticsController {
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('KIOSK') or hasRole('USER')")
     @PostMapping("/kiosk/checkout")
-    public String checkout(@RequestBody HashMap<String, List<AnalyticsModel>> json, Authentication auth) {
+    public String kioskCheckout(@RequestBody HashMap<String, List<AnalyticsModel>> json, Authentication auth) {
         String unitId = auth.getName();
         // extract the item names from the json
         List<AnalyticsModel> items = json.get("products");
         return analyticsService.checkout(items, unitId);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('KIOSK') or hasRole('USER')")
+    @PostMapping("/user/checkout")
+    public String userCheckout(@RequestBody HashMap<String, List<AnalyticsModel>> json) {
+        // extract the item names from the json
+        List<AnalyticsModel> items = json.get("products");
+        return analyticsService.checkout(items);
     }
 }

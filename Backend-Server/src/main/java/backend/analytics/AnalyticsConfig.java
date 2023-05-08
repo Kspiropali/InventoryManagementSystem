@@ -28,7 +28,7 @@ public class AnalyticsConfig {
         AnalyticsModel analyticsModel3 = new AnalyticsModel("Potatoes", 4, 3.45F, kiosk, "User");
         AnalyticsModel analyticsModel4 = new AnalyticsModel("Rosemary", 20, 2.95F, kiosk, "User");
         AnalyticsModel analyticsModel5 = new AnalyticsModel("Coconut", 4, 4.5F, kiosk, "Kiosk");
-        AnalyticsModel analyticsModel6 = new AnalyticsModel("Egg Noodles", 3, 1.95F, kiosk, "Kiosk");
+        AnalyticsModel analyticsModel6 = new AnalyticsModel("Egg_Noodles", 3, 1.95F, kiosk, "Kiosk");
 
         analyticsRepository.saveAll(List.of(analyticsModel, analyticsModel1, analyticsModel2, analyticsModel3, analyticsModel4, analyticsModel5, analyticsModel6));
     }

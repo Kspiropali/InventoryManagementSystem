@@ -214,7 +214,7 @@ function checkout() {
 
     //add prices to the products
     let products = [];
-    //enhaned for loop
+    //enhanced for loop
     for (let product_name of product_names) {
         products.push({
             "name": product_name,

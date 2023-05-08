@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: backend
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: backend
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ./kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/email_net: "true"
+        io.kompose.network/fileserver_net: "true"
+        io.kompose.network/postgres_net: "true"
+        io.kompose.network/redirect_net: "true"
+        io.kompose.network/redis_net: "true"
+        io.kompose.service: backend
+    spec:
+      containers:
+        - image: backend
+          name: backend-server
+          resources: {}
+      restartPolicy: Always
+status: {}

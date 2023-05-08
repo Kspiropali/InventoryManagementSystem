@@ -35,6 +35,9 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String email;
 
+    @Column(unique = true)
+    private String username;
+
     @Column(length = 60)
     private String password;
     private boolean accountNonLocked = true;
@@ -45,10 +48,21 @@ public class User implements UserDetails {
     private Region region;
     GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
 
-    public User(String email, String password) {
+    public User(String username, String email, String password) {
+        this.username = username;
         this.email = email;
         this.password = password;
         this.createdAt = new Date();
+        // select a random region
+        this.region = Region.values()[(int) (Math.random() * Region.values().length)];
+    }
+
+    public User(String username, String email, String password, Date createdAt) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        // set the createdAt to the last months date
+        this.createdAt = createdAt;
         // select a random region
         this.region = Region.values()[(int) (Math.random() * Region.values().length)];
     }
@@ -61,7 +75,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.getEmail();
+        return this.username;
     }
 
     @Override

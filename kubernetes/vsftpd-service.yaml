@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: vsftpd
+  name: vsftpd
+spec:
+  ports:
+    - name: "20"
+      port: 20
+      targetPort: 20
+    - name: "21"
+      port: 21
+      targetPort: 21
+    - name: "40000"
+      port: 40000
+      targetPort: 40000
+    - name: "40001"
+      port: 40001
+      targetPort: 40001
+    - name: "40002"
+      port: 40002
+      targetPort: 40002
+    - name: "40003"
+      port: 40003
+      targetPort: 40003
+    - name: "40004"
+      port: 40004
+      targetPort: 40004
+    - name: "40005"
+      port: 40005
+      targetPort: 40005
+    - name: "40006"
+      port: 40006
+      targetPort: 40006
+    - name: "40007"
+      port: 40007
+      targetPort: 40007
+    - name: "40008"
+      port: 40008
+      targetPort: 40008
+    - name: "40009"
+      port: 40009
+      targetPort: 40009
+  selector:
+    io.kompose.service: vsftpd
+status:
+  loadBalancer: {}

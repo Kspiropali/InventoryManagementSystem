@@ -3,15 +3,16 @@ package backend.item;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
     @Override
     public byte[] getItemBarcodeImage(Long id) {
-        byte[] image = itemRepository.findById(id).get().getBarcodeImage();
 
-        return image;
+        return itemRepository.findById(id).get().getBarcodeImage();
     }
 
     @Override
@@ -52,4 +53,11 @@ public class ItemServiceImpl implements ItemService {
     public Long getTotalItems() {
         return itemRepository.count();
     }
+
+    @Override
+    public List<Item> getAllItems() {
+        // return item name, item price, item image and item type
+        return itemRepository.findAll();
+    }
+
 }

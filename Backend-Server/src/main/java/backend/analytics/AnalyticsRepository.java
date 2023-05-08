@@ -33,7 +33,7 @@ public interface AnalyticsRepository extends JpaRepository<AnalyticsModel, Long>
     List<AnalyticsModel> findAllByQuantity(int quantity);
 
     // find most selling item
-    @Query(value = "SELECT * FROM _analytics ORDER BY quantity DESC LIMIT 5", nativeQuery = true)
+    @Query(value = "SELECT * FROM _analytics ORDER BY quantity", nativeQuery = true)
     List<AnalyticsModel> findAllByOrderByQuantity();
 
     @Query(value = "SELECT * FROM _analytics ORDER BY total_profit DESC LIMIT 5", nativeQuery = true)

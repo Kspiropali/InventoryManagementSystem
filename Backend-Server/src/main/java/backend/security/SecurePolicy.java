@@ -316,7 +316,6 @@ public class SecurePolicy {
                             .deleteCookies("JSESSIONID")
                     )
                     .antMatcher("/analytics/**")
-//                    .antMatcher("/analytics/***")
                     //Cross origin enable
                     .cors().and()
                     //Cross site request forgery disable for testing purposes
@@ -345,6 +344,61 @@ public class SecurePolicy {
             DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
             provider.setPasswordEncoder(passwordEncoder);
             provider.setUserDetailsService(analyticsService);
+            return provider;
+        }
+    }
+
+    @Order(5)
+    @Configuration
+    public static class ChatSecurityConfig extends WebSecurityConfigurerAdapter {
+        private final UserDetailsService chatService;
+        private final PasswordEncoder passwordEncoder;
+
+        public ChatSecurityConfig(@Qualifier("chatWrapper") UserDetailsService chatService, PasswordEncoder passwordEncoder) {
+            this.chatService = chatService;
+            this.passwordEncoder = passwordEncoder;
+        }
+
+        //Security context configurer and session provider configurer
+        @Override
+        public void configure(HttpSecurity http) throws Exception {
+            http
+                    .logout(logout -> logout
+                            .invalidateHttpSession(true)
+                            .deleteCookies("JSESSIONID")
+                    )
+                    .antMatcher("/ws/**")
+                    .antMatcher("/chat/**")
+                    .antMatcher("/download/**")
+//                    .antMatcher("/analytics/***")
+                    //Cross origin enable
+                    .cors().and()
+                    //Cross site request forgery disable for testing purposes
+                    .csrf().disable()//.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                    .formLogin().usernameParameter("email")
+                    .and()
+                    .authorizeRequests()
+                    //Allow all white-listed urls without authentication
+                    .antMatchers(WHITE_LIST_URLS).permitAll()
+                    .anyRequest().authenticated().and()
+                    .httpBasic()
+                    .authenticationEntryPoint(customAuthEntryPoint)
+                    .and().sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).sessionFixation().migrateSession()
+                    .maximumSessions(1).maxSessionsPreventsLogin(true);
+        }
+
+
+        //Data access object spring security configuration
+        @Override
+        public void configure(AuthenticationManagerBuilder auth) {
+            auth.authenticationProvider(daoAuthenticationProvider());
+        }
+
+        public DaoAuthenticationProvider daoAuthenticationProvider() {
+            DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+            provider.setPasswordEncoder(passwordEncoder);
+            provider.setUserDetailsService(chatService);
             return provider;
         }
     }

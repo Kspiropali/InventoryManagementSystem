@@ -2,6 +2,8 @@ package backend.item;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface ItemService {
     byte[] getItemBarcodeImage(Long id);
@@ -19,4 +21,6 @@ public interface ItemService {
     String getItemByBarcode(String barcode);
 
     Long getTotalItems();
+
+    List<Item> getAllItems();
 }

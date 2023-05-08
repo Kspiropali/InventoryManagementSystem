@@ -12,10 +12,10 @@ public class AdminConfig {
     public AdminConfig(AdminRepository adminRepository, PasswordEncoder passwordEncoder) {
         this.adminRepository = adminRepository;
         this.passwordEncoder = passwordEncoder;
-        addUsers();
+        addAdmins();
     }
 
-    public void addUsers() {
+    public void addAdmins() {
         //Testing only, Setup admin for testing
         Admin admin = new Admin("admin", passwordEncoder.encode("admin"));
         admin.setEnabled(true);
